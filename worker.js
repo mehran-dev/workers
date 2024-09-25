@@ -18,5 +18,5 @@ self.onmessage = function (event) {
       // Optionally, post the message back to the main thread
       self.postMessage(message);
     }
-  }, -1);
+  }, 250);
 };

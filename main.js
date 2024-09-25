@@ -67,7 +67,7 @@ function regenerateImage(pixels, width, height) {
   // Iterate through the pixels array and populate the ImageData
   for (let i = 0, j = 0; i < pixels.length; i += 1, j += 4) {
     const [r, g, b] = pixels[i];
-
+    let x = randomColor();
     // Set the red, green, and blue components
     imageData.data[j] = r; // Red
     imageData.data[j + 1] = g; // Green
