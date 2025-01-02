@@ -30,6 +30,8 @@ function processImage(image) {
   // Draw the image onto the canvas
   context.drawImage(image, 0, 0);
 
+  // document.body.appendChild(canvas);
+
   // Get the ImageData object containing pixel data
   const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
 
@@ -39,11 +41,14 @@ function processImage(image) {
 
 // Listen for the result from the worker
 imageWorker.onmessage = function (event) {
-  console.log(event);
+  console.log("ONMessage", event);
 
   const pixels = event.data;
   console.log("RGB Values for all pixels:", pixels);
-  RegData.pixels = pixels;
+
+  RegData = pixels;
+  console.log(RegData);
+
   // Here you can do whatever you need with the pixel data
 };
 
@@ -60,38 +65,37 @@ img.onload = function () {
   processImage(img);
 };
 
-function regenerateImage(pixels, width, height) {
-  // Create a new ImageData object
-  const imageData = new ImageData(width, height);
+// function regenerateImage(pixels, width, height) {
+//   // Create a new ImageData object
+//   const imageData = new ImageData(width, height);
 
-  // Iterate through the pixels array and populate the ImageData
-  for (let i = 0, j = 0; i < pixels.length; i += 1, j += 4) {
-    const [r, g, b] = pixels[i];
-    let x = randomColor();
-    // Set the red, green, and blue components
-    imageData.data[j] = r; // Red
-    imageData.data[j + 1] = g; // Green
-    imageData.data[j + 2] = b; // Blue
+//   // Iterate through the pixels array and populate the ImageData
+//   for (let i = 0, j = 0; i < pixels.length; i += 1, j += 4) {
+//     const [r, g, b] = pixels[i];
+//     let x = randomColor();
+//     // Set the red, green, and blue components
+//     imageData.data[j] = r; // Red
+//     imageData.data[j + 1] = g; // Green
+//     imageData.data[j + 2] = b; // Blue
 
-    // Set the alpha component (fully opaque)
-    imageData.data[j + 3] = 255; // Alpha
-  }
-  console.log("imageData ", imageData);
+//     // Set the alpha component (fully opaque)
+//     imageData.data[j + 3] = 255; // Alpha
+//   }
+//   console.log("imageData ", imageData);
 
-  return imageData;
-}
+//   return imageData;
+// }
 
-function drawImageFromPixels(pixels, width, height) {
+function drawImageFromPixels(imageData) {
   // Get the ImageData object from the pixels array
-  const imageData = regenerateImage(pixels, width, height);
 
   // Create a canvas element to draw the image
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
 
   // Set canvas dimensions
-  canvas.width = width;
-  canvas.height = height;
+  canvas.width = imageData.width;
+  canvas.height = imageData.height;
 
   // Draw the ImageData onto the canvas
   context.putImageData(imageData, 0, 0);
@@ -101,7 +105,7 @@ function drawImageFromPixels(pixels, width, height) {
 }
 
 function reg() {
-  drawImageFromPixels(RegData.pixels, RegData.width, RegData.height);
+  drawImageFromPixels(RegData);
 }
 
 function randomColor() {

@@ -1,20 +1,15 @@
 self.onmessage = function (event) {
-  const imageData = event.data;
-  console.log("_______________________________________", imageData);
+  const originalImage = event.data;
+  const { width, height, data } = originalImage;
 
-  const { width, height, data } = imageData;
-  const pixels = [];
-
-  for (let i = 0; i < data.length; i += 4) {
-    const r = data[i]; // Red
-    const g = data[i + 1]; // Green
-    const b = data[i + 2]; // Blue
-    // We can also access the alpha channel with data[i + 3] if needed
-
-    // Store the RGB values as an array
-    pixels.push([r, g, b]);
+  const arr = new Uint8ClampedArray(data.length);
+  for (let i = 0; i < arr.length; i += 4) {
+    arr[i + 0] = data[i]; // R value
+    arr[i + 1] = data[i + 1]; // G value
+    arr[i + 2] = data[i + 2]; // B value
+    arr[i + 3] = 255; // A value
   }
 
-  // Post the result back to the main thread
-  self.postMessage(pixels);
+  const modifiedImage = new ImageData(arr, width, height);
+  self.postMessage(modifiedImage);
 };
