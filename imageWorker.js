@@ -4,7 +4,7 @@ self.onmessage = function (event) {
 
   const arr = new Uint8ClampedArray(data.length);
   for (let i = 0; i < arr.length; i += 4) {
-    arr[i + 0] = data[i]; // R value
+    arr[i + 0] = 255 || data[i]; // R value
     arr[i + 1] = data[i + 1]; // G value
     arr[i + 2] = data[i + 2]; // B value
     arr[i + 3] = 255; // A value
@@ -13,3 +13,7 @@ self.onmessage = function (event) {
   const modifiedImage = new ImageData(arr, width, height);
   self.postMessage(modifiedImage);
 };
+
+function randomColor() {
+  return Math.floor(255 * Math.random());
+}
