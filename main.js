@@ -1,5 +1,8 @@
-const imageWorker = new Worker("imageWorker.js");
+//* global variables */
+let preset = "blue";
 let originalImageData;
+
+const imageWorker = new Worker("imageWorker.js");
 // Function to send image data to the worker
 function createOriginalImage(image) {
   const canvas = document.getElementById("original");
@@ -18,7 +21,7 @@ const processImage = () => {
     alert("No Image Global Found!");
     return;
   }
-  imageWorker.postMessage(originalImageData);
+  imageWorker.postMessage({ originalImage: originalImageData, preset });
 };
 
 // Listen for the result from the worker
@@ -47,6 +50,9 @@ const initLoader = () => {
   img.src =
     "https://dkstatics-public.digikala.com/digikala-products/999fb913800f98b7f3c1120ea76ab99cc6312a28_1718203737.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/format,webp/quality,q_90";
 
+  img.src =
+    "https://dkstatics-public.digikala.com/digikala-products/c23b49b0be1c4ae5b2a3d7a3281d2f1731065243_1726037574.jpg?x-oss-process=image/resize,m_lfit,h_800,w_800/format,webp/quality,q_90";
+
   img.onload = function () {
     console.log("process on load ", img);
 
@@ -55,3 +61,7 @@ const initLoader = () => {
 };
 
 initLoader();
+
+function setPreset(txt) {
+  preset = txt;
+}

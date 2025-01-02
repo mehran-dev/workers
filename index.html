@@ -6,7 +6,17 @@
     <title>Document</title>
   </head>
   <body>
-    <button onclick="reg()">print</button>
+    <div>
+      <button onclick="setPreset('blue')">blue</button>
+      <button onclick="setPreset('red')">red</button>
+      <button onclick="setPreset('green')">green</button>
+
+      <button onclick="setPreset('gray')">gray</button>
+      <button onclick="setPreset('bright')">bright</button>
+      <button onclick="setPreset('dark')">dark</button>
+    </div>
+
+    <button id="reg" onclick="reg()">print</button>
     <div class="wrapper">
       <canvas id="original"></canvas>
       <canvas id="modified"></canvas>
@@ -20,6 +30,25 @@
         flex-wrap: wrap;
         justify-content: center;
         align-items: center;
+      }
+      canvas {
+        border: 2px solid gray;
+        margin: 12px 18px;
+      }
+
+      button {
+        width: 250px;
+        margin: 10px 6px;
+        padding: 6px;
+        border-radius: 6px;
+        outline: none;
+        border: 2px solid gray;
+      }
+
+      button#reg {
+        background-color: green;
+        color: antiquewhite;
+        padding: 12px 12px;
       }
     </style>
 
